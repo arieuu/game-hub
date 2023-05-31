@@ -29,6 +29,7 @@ export interface Game {
         platform argument with an object of type platform 
     */
     parent_platforms: { platform: Platform }[];
+    metacritic: number;
 }
 
 function useGames() {
