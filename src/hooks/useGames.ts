@@ -5,15 +5,30 @@ import { useEffect, useState } from "react";
 import apiClients from "../services/api-clients";
 import { CanceledError } from "axios";
 
+
+
+
+
 interface FetchGamesResponse {
     count: number,
     results: Game[]
 }
 
+export interface Platform {
+    id: string;
+    name: string;
+    slug: string;
+}
+
 export interface Game {
-    id: number,
-    name: string,
-    background_image: string
+    id: number;
+    name: string;
+    background_image: string;
+    /*
+        This is implemented like this because of a design smell of the api, each platform has an array of objs and inside a 
+        platform argument with an object of type platform 
+    */
+    parent_platforms: { platform: Platform }[];
 }
 
 function useGames() {
