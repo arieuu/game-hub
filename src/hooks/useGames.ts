@@ -2,6 +2,7 @@
 // We do everything then return a games object with the results and an error object with any error
 
 import useData from "./useData";
+import { Genre } from "./useGenres";
 
 export interface Platform {
     id: string;
@@ -21,12 +22,8 @@ export interface Game {
     metacritic: number;
 }
 
-function useGames() {
 
-    const games = useData<Game>("/games");
+    const useGames = (selectedGenre: Genre | null) => useData<Game>("/games", { params: { genres: selectedGenre?.id}}, [selectedGenre?.id]);
 
-    return games;
-
-}
 
 export default useGames;

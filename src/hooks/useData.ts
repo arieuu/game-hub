@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import apiClients from "../services/api-clients";
-import { CanceledError } from "axios";
+import { AxiosRequestConfig, CanceledError } from "axios";
 
 // A generic custom hook to fetch data
 
@@ -9,7 +9,7 @@ interface FetchResponse<T> {
     results: T[];
 }
 
-function useData<T>(endpoint: string) {
+function useData<T>(endpoint: string, requestConfig?: AxiosRequestConfig, deps?: any[]) {
 
     const [data, setData] = useState<T[]>([]);
     const [error, setError] = useState("");
@@ -19,7 +19,7 @@ function useData<T>(endpoint: string) {
         const controller = new AbortController(); // Handling cancellation
 
         setIsLoading(true);
-        apiClients.get<FetchResponse<T>>(endpoint, {signal: controller.signal})
+        apiClients.get<FetchResponse<T>>(endpoint, {signal: controller.signal, ...requestConfig})
         .then(res => {
             setData(res.data.results);
             setIsLoading(false); // Updating state to hide loading cards, the content is ready to be displayed.
@@ -33,7 +33,7 @@ function useData<T>(endpoint: string) {
 
         // Returning a clean up function
         return () => controller.abort();
-    }, []);
+    }, deps ? [...deps] : []); // we need to check if it's truthy because we can't spread and array that might be null
 
     return { data, error, isLoading };
 
