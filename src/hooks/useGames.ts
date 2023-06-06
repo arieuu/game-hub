@@ -1,6 +1,7 @@
 // Creating a custom hook to get list of games
 // We do everything then return a games object with the results and an error object with any error
 
+import { GameQuery } from "../App";
 import useData from "./useData";
 import { Genre } from "./useGenres";
 
@@ -23,10 +24,10 @@ export interface Game {
 }
 
                                                                                                                  // Here we're passing query parameters so that the api will filter the request to what we want
-    const useGames = (selectedGenre: Genre | null, selectedPlatform: Platform | null) =>  
-        useData<Game>("/games", { params: { genres: selectedGenre?.id, platforms: selectedPlatform?.id}}, 
+    const useGames = (gameQuery: GameQuery) =>  
+        useData<Game>("/games", { params: { genres: gameQuery.genre?.id, platforms: gameQuery.platform?.id}}, 
         // This is our dependency array, when this changes the component re-renders
-        [selectedGenre?.id, selectedPlatform?.id]);
+        [gameQuery]); // If this object changes, we re-render the components
 
 
 export default useGames;
