@@ -2,7 +2,7 @@ import useData from "./useData";
 
 
 interface Platform {
-    id: number;
+    id: string; // I changed this from number to string because of error in platform selector.
     name: string;
     slug: string;
 }

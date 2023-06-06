@@ -22,8 +22,11 @@ export interface Game {
     metacritic: number;
 }
 
-
-    const useGames = (selectedGenre: Genre | null) => useData<Game>("/games", { params: { genres: selectedGenre?.id}}, [selectedGenre?.id]);
+                                                                                                                 // Here we're passing query parameters so that the api will filter the request to what we want
+    const useGames = (selectedGenre: Genre | null, selectedPlatform: Platform | null) =>  
+        useData<Game>("/games", { params: { genres: selectedGenre?.id, platforms: selectedPlatform?.id}}, 
+        // This is our dependency array, when this changes the component re-renders
+        [selectedGenre?.id, selectedPlatform?.id]);
 
 
 export default useGames;
