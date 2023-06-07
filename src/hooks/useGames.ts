@@ -3,7 +3,6 @@
 
 import { GameQuery } from "../App";
 import useData from "./useData";
-import { Genre } from "./useGenres";
 
 export interface Platform {
     id: string;
@@ -25,7 +24,13 @@ export interface Game {
 
                                                                                                                  // Here we're passing query parameters so that the api will filter the request to what we want
     const useGames = (gameQuery: GameQuery) =>  
-        useData<Game>("/games", { params: { genres: gameQuery.genre?.id, platforms: gameQuery.platform?.id}}, 
+        useData<Game>("/games", { 
+            params: {
+                genres: gameQuery.genre?.id,            // To make request filtering by genre
+                platforms: gameQuery.platform?.id,      // To filter by platform
+                ordering: gameQuery.sortOrder              // By sort (added, updated, name)
+            }
+        }, 
         // This is our dependency array, when this changes the component re-renders
         [gameQuery]); // If this object changes, we re-render the components
 
