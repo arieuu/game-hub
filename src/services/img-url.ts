@@ -1,3 +1,5 @@
+import noImage from "../assets/image-placeholder.webp";
+
 /**
  * This api supports cropping images on the fly through the url.
  * So we write a service that does that. This way we optimize page load by already
@@ -5,7 +7,8 @@
  */
 
 const getCroppedImageUrl = (url: string) => {
-    if(!url) return "";
+    if(!url) return noImage; // Use a placeholder in case there's no image
+
     const target = "media/";
     const index = url.indexOf(target) + target.length;
 
