@@ -28,7 +28,8 @@ export interface Game {
             params: {
                 genres: gameQuery.genre?.id,            // To make request filtering by genre
                 platforms: gameQuery.platform?.id,      // To filter by platform
-                ordering: gameQuery.sortOrder              // By sort (added, updated, name)
+                ordering: gameQuery.sortOrder,              // By sort (added, updated, name)
+                search: gameQuery.searchText
             }
         }, 
         // This is our dependency array, when this changes the component re-renders
