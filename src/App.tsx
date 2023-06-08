@@ -1,4 +1,4 @@
-import { Grid, GridItem, HStack, Show } from '@chakra-ui/react';
+import { Box, Grid, GridItem, HStack, Show } from '@chakra-ui/react';
 import './App.css'
 import NavBar from './components/NavBar';
 import GameGrid from './components/GameGrid';
@@ -8,6 +8,7 @@ import { Genre } from './hooks/useGenres';
 import PlatformSelector from './components/PlatformSelector';
 import { Platform } from './hooks/useGames';
 import SortSelector from './components/SortSelector';
+import GameHeading from './components/GameHeading';
 
 // Implementing query object pattern where we pack related variables inside an object.
 
@@ -45,10 +46,14 @@ function App() {
 
       <GridItem area="main">
 
-        <HStack spacing={3} paddingLeft={2.5} marginBottom={1.5}>
-          <PlatformSelector onSelectPlatform={(platform) => setGameQuery({...gameQuery, platform})} selectedPlatform={gameQuery.platform} />
-          <SortSelector onSelectSortOrder={(sortOrder) => setGameQuery({...gameQuery, sortOrder})} sortOrderValue={gameQuery.sortOrder} />
-        </HStack>
+        <Box paddingLeft={2.5}>
+          <GameHeading gamequery={gameQuery} />
+
+          <HStack spacing={3} marginBottom={1.5}>
+            <PlatformSelector onSelectPlatform={(platform) => setGameQuery({...gameQuery, platform})} selectedPlatform={gameQuery.platform} />
+            <SortSelector onSelectSortOrder={(sortOrder) => setGameQuery({...gameQuery, sortOrder})} sortOrderValue={gameQuery.sortOrder} />
+          </HStack>
+        </Box>
 
       <GameGrid gameQuery={gameQuery}/>
 
