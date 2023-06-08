@@ -20,6 +20,7 @@ export interface Game {
     */
     parent_platforms: { platform: Platform }[];
     metacritic: number;
+    rating_top: number;
 }
 
                                                                                                                  // Here we're passing query parameters so that the api will filter the request to what we want
