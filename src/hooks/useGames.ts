@@ -3,9 +3,11 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { GameQuery } from "../App";
-import { FetchResponse } from "../services/api-clients";
-import apiClients from "../services/api-clients";
+import { FetchResponse } from "../services/APIClient";
 import { Platform } from "./usePlatforms";
+import APIClient from "../services/APIClient";
+
+const apiClient = new APIClient<Game>("/games");
 
 export interface Game {
     id: number;
@@ -27,7 +29,7 @@ export interface Game {
         const queryObject = useQuery<FetchResponse<Game>, Error>({
            queryKey:["games", gameQuery],  // Anytime the gamequery changes we refetch (just like useeffect dependencies)
            queryFn: () => {
-                return apiClients.get<FetchResponse<Game>>("/games", {
+                return apiClient.getAll({
                     params: {
                         genres: gameQuery.genre?.id,
                         parent_platforms: gameQuery.platform?.id,
@@ -35,7 +37,6 @@ export interface Game {
                         search: gameQuery.searchText
                     }
                 })
-                .then(res => res.data)
            }
         }); 
 
