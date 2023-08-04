@@ -1,12 +1,35 @@
-import useData from "./useData";
+import { useQuery } from "@tanstack/react-query";
+import platforms from "../data/platforms";
+import apiClients from "../services/api-clients";
+import { FetchResponse } from "./useData";
 
 
 interface Platform {
-    id: string; // I changed this from number to string because of error in platform selector.
+    id: number;
     name: string;
     slug: string;
 }
 
-const usePlatforms = () => useData<Platform>("/platforms/lists/parents");
+const usePlatforms = () => {
+
+    const queryObject = useQuery({
+        queryKey: ["platforms"],
+
+        queryFn: () => {
+            return apiClients.get<FetchResponse<Platform>>("/platforms/lists/parents")
+            .then(res => res.data)
+        },
+
+        staleTime: 24 * 60 * 60 * 1000, // 24 hours to go stale, this data doesn't change much 
+
+        // Provide initial data
+        initialData: { count: platforms.length, results: platforms }
+
+    })
+
+    return {data: queryObject.data, isLoading: queryObject.isLoading, error: queryObject.error}
+
+    // return {data: platforms, isLoading: false, error: null}
+};
 
 export default usePlatforms;

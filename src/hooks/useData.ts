@@ -4,7 +4,7 @@ import { AxiosRequestConfig, CanceledError } from "axios";
 
 // A generic custom hook to fetch data
 
-interface FetchResponse<T> {
+export interface FetchResponse<T> {
     count: number;
     results: T[];
 }
