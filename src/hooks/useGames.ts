@@ -1,8 +1,10 @@
 // Creating a custom hook to get list of games
 // We do everything then return a games object with the results and an error object with any error
 
+import { useQuery } from "@tanstack/react-query";
 import { GameQuery } from "../App";
-import useData from "./useData";
+import { FetchResponse } from "../services/api-clients";
+import apiClients from "../services/api-clients";
 
 export interface Platform {
     id: number;
@@ -23,18 +25,27 @@ export interface Game {
     rating_top: number;
 }
 
-                                                                                                                 // Here we're passing query parameters so that the api will filter the request to what we want
-    const useGames = (gameQuery: GameQuery) =>  
-        useData<Game>("/games", { 
-            params: {
-                genres: gameQuery.genre?.id,                // To make request filtering by genre
-                platforms: gameQuery.platform?.id,          // To filter by platform
-                ordering: gameQuery.sortOrder,              // By sort (added, updated, name)
-                search: gameQuery.searchText
-            }
-        }, 
-        // This is our dependency array, when this changes the component re-renders
-        [gameQuery]); // If this object changes, we re-render the components
+    // Here we're passing query parameters so that the api will filter the request to what we want
 
+    const useGames = (gameQuery: GameQuery) => { 
+        
+        const queryObject = useQuery<FetchResponse<Game>, Error>({
+           queryKey:["games", gameQuery],  // Anytime the gamequery changes we refetch (just like useeffect dependencies)
+           queryFn: () => {
+                return apiClients.get<FetchResponse<Game>>("/games", {
+                    params: {
+                        genres: gameQuery.genre?.id,
+                        parent_platforms: gameQuery.platform?.id,
+                        ordering: gameQuery.sortOrder,
+                        search: gameQuery.searchText
+                    }
+                })
+                .then(res => res.data)
+           }
+        }); 
+
+        return queryObject;
+
+    }
 
 export default useGames;

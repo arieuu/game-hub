@@ -2,7 +2,7 @@
 import { useQuery } from "@tanstack/react-query";
 import genres from "../data/genres";
 import apiClients from "../services/api-clients";
-import useData, { FetchResponse } from "./useData";
+import { FetchResponse } from "../services/api-clients";
 
 // Using static data instead of making a request to the server everytime the pages loads.
 // This improves performance and the genre list rarely changes anyway.

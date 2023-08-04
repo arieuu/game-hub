@@ -1,5 +1,10 @@
 import axios from "axios";
 
+export interface FetchResponse<T> {
+    count: number;
+    results: T[];
+}
+
 // Creating an axios instance with custom configuration
 
 export default axios.create({
