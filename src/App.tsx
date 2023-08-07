@@ -13,8 +13,8 @@ import GameHeading from './components/GameHeading';
 // Implementing query object pattern where we pack related variables inside an object.
 
 export interface GameQuery {
-  genre: Genre | null;
-  platform: Platform | null;
+  genreId?: number;
+  platformId?: number;
   sortOrder: string;
   searchText: string;
 }
@@ -40,7 +40,7 @@ function App() {
 
       <Show above='lg'>
         <GridItem area="aside" paddingX="5">
-          <GenreList selectedGenre={gameQuery.genre} onSelectGenre={(genre) => setGameQuery({...gameQuery, genre})} />
+          <GenreList selectedGenreId={gameQuery.genreId} onSelectGenre={(genre) => setGameQuery({...gameQuery, genreId: genre.id})} />
         </GridItem>
       </Show>
 
@@ -50,7 +50,7 @@ function App() {
           <GameHeading gamequery={gameQuery} />
 
           <HStack spacing={3} marginBottom={1.5}>
-            <PlatformSelector onSelectPlatform={(platform) => setGameQuery({...gameQuery, platform})} selectedPlatform={gameQuery.platform} />
+            <PlatformSelector onSelectPlatform={(platform) => setGameQuery({...gameQuery, platformId: platform.id})} selectedPlatformId={gameQuery.platformId} />
             <SortSelector onSelectSortOrder={(sortOrder) => setGameQuery({...gameQuery, sortOrder})} sortOrderValue={gameQuery.sortOrder} />
           </HStack>
         </Box>

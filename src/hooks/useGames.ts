@@ -31,8 +31,8 @@ export interface Game {
             queryFn: ({ pageParam = 1} /* react query will pass page number here */) => {
                 return apiClient.getAll({
                     params: {
-                        genres: gameQuery.genre?.id,
-                        parent_platforms: gameQuery.platform?.id,
+                        genres: gameQuery.genreId,
+                        parent_platforms: gameQuery.platformId,
                         ordering: gameQuery.sortOrder,
                         search: gameQuery.searchText,
                         page: pageParam,
