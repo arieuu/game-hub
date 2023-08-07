@@ -6,6 +6,7 @@ import { GameQuery } from "../App";
 import { FetchResponse } from "../services/APIClient";
 import { Platform } from "./usePlatforms";
 import APIClient from "../services/APIClient";
+import ms from "ms";
 
 const apiClient = new APIClient<Game>("/games");
 
@@ -44,7 +45,7 @@ export interface Game {
                 return lastPage.next ? allPages.length + 1 : undefined;
            },
            
-           staleTime: 24 * 60 * 60 * 1000 // 24h
+           staleTime: ms("24h")
         });
 
         return queryObject;

@@ -2,6 +2,7 @@
 import { useQuery } from "@tanstack/react-query";
 import genres from "../data/genres";
 import APIClient from "../services/APIClient";
+import ms from "ms";
 
 // Using static data instead of making a request to the server everytime the pages loads.
 // This improves performance and the genre list rarely changes anyway.
@@ -22,7 +23,7 @@ function useGenres() {
     const queryObject = useQuery({
         queryKey: ["genres"],
         queryFn: apiClient.getAll,
-        staleTime: 24 * 60 * 60 * 1000, // 24 hours to go stale, this data doesn't change much 
+        staleTime: ms("24h"), // 24 hours to go stale, this data doesn't change much 
         
         // We set an initial data to our cache from the local object so that we don't have to go fetch from the backend
 
