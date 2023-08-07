@@ -1,7 +1,7 @@
 // Creating a custom hook to get list of games
 // We do everything then return a games object with the results and an error object with any error
 
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { GameQuery } from "../App";
 import { FetchResponse } from "../services/APIClient";
 import { Platform } from "./usePlatforms";
@@ -26,19 +26,24 @@ export interface Game {
 
     const useGames = (gameQuery: GameQuery) => { 
         
-        const queryObject = useQuery<FetchResponse<Game>, Error>({
-           queryKey:["games", gameQuery],  // Anytime the gamequery changes we refetch (just like useeffect dependencies)
-           queryFn: () => {
+        const queryObject = useInfiniteQuery<FetchResponse<Game>, Error>({
+            queryKey:["games", gameQuery],  // Anytime the gamequery changes we refetch (just like useeffect dependencies)
+            queryFn: ({ pageParam = 1} /* react query will pass page number here */) => {
                 return apiClient.getAll({
                     params: {
                         genres: gameQuery.genre?.id,
                         parent_platforms: gameQuery.platform?.id,
                         ordering: gameQuery.sortOrder,
-                        search: gameQuery.searchText
+                        search: gameQuery.searchText,
+                        page: pageParam,
                     }
                 })
+           },
+
+           getNextPageParam: (lastPage, allPages) => {
+                return lastPage.next ? allPages.length + 1 : undefined;
            }
-        }); 
+        });
 
         return queryObject;
 
