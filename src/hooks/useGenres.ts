@@ -26,7 +26,7 @@ function useGenres() {
         
         // We set an initial data to our cache from the local object so that we don't have to go fetch from the backend
 
-        initialData: { count: genres.length, results: genres}
+        initialData: { count: genres.length, results: genres, next: null}
 
     })
 
