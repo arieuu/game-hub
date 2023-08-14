@@ -1,19 +1,22 @@
 import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
 import { useRef } from "react";
 import { BsSearch } from "react-icons/bs";
+import useGameQueryStore from "../store";
 
-interface Props {
-    onSearch: (searchText: string) => void;
-}
 
-function SearchInput({ onSearch }: Props) {
+function SearchInput() {
 
     const ref = useRef<HTMLInputElement>(null); // Access the input by reference
+
+    // Using a selector to only get one function from the store, this way
+    // it will only re-render if this one value changes, it won't care for the other things
+
+    const setSearchText = useGameQueryStore(selector => selector.setSearchText);
 
     return(
         <form onSubmit={(event) => {
             event.preventDefault();
-            if(ref.current) onSearch(ref.current.value);
+            if(ref.current) setSearchText(ref.current.value);
         }}>
             <InputGroup>
                 <InputLeftElement children={<BsSearch/>}/>
