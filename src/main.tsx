@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
-import App from './App';
 import theme from './theme';
 import './index.css';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { RouterProvider } from 'react-router-dom';
+import router from './routes';
 
 const queryClient = new QueryClient();
 
@@ -16,7 +17,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools />
-        <App />
+
+        <RouterProvider router={router} /* Now react router will decide what page gets opened instead of us */ />
+
       </QueryClientProvider>
 
     </ChakraProvider>
