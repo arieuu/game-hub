@@ -3,17 +3,12 @@ import { useQuery } from "@tanstack/react-query";
 import genres from "../data/genres";
 import APIClient from "../services/APIClient";
 import ms from "ms";
+import { Genre } from "../entities/Genre";
 
 // Using static data instead of making a request to the server everytime the pages loads.
 // This improves performance and the genre list rarely changes anyway.
 
 const apiClient = new APIClient<Genre>("/genres");
-
-export interface Genre {
-    id: number;
-    name: string;
-    image_background: string;
-}
 
 // This hides the http request logic from our component
 

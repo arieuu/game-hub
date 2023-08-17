@@ -5,26 +5,9 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import ms from "ms";
 import APIClient, { FetchResponse } from "../services/APIClient";
 import useGameQueryStore from "../store";
-import { Platform } from "./usePlatforms";
+import { Game } from "../entities/Game";
 
 const apiClient = new APIClient<Game>("/games");
-
-export interface Game {
-    id: number;
-    name: string;
-    slug: string;
-    description_raw: string;
-    background_image: string;
-
-    /*
-        This is implemented like this because of a design smell of the api, each platform has an array of objs and inside a 
-        platform argument with an object of type platform 
-    */
-
-    parent_platforms: { platform: Platform }[];
-    metacritic: number;
-    rating_top: number;
-}
 
     // Here we're passing query parameters so that the api will filter the request to what we want
 
