@@ -2,6 +2,7 @@ import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
 import { useRef } from "react";
 import { BsSearch } from "react-icons/bs";
 import useGameQueryStore from "../store";
+import { useNavigate } from "react-router-dom";
 
 
 function SearchInput() {
@@ -13,10 +14,19 @@ function SearchInput() {
 
     const setSearchText = useGameQueryStore(selector => selector.setSearchText);
 
+    const navigate = useNavigate();
+
     return(
         <form onSubmit={(event) => {
             event.preventDefault();
-            if(ref.current) setSearchText(ref.current.value);
+            if(ref.current) {
+
+                // update state to hold this new value then redirect user to the home page if they're not
+                // so they can see the results
+                
+                setSearchText(ref.current.value);
+                navigate("/");
+            }
         }}>
             <InputGroup>
                 <InputLeftElement children={<BsSearch/>}/>
